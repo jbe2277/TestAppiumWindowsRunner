@@ -18,6 +18,14 @@ jobs:
           appium --version
           Start-Process -FilePath "pwsh" -ArgumentList "-File `"(Get-Command appium).Source`"" -WindowStyle Hidden
 
+      - name: Check if Appium is running
+        run: |
+          curl --fail http://localhost:4723/status
+        shell: bash
+
+          
+
+    # Start-Process -FilePath "pwsh" -ArgumentList ". '(Get-Command appium).Source'"
 
     # "%AppData%\npm\appium.cmd" --version
     # start cmd /k "%AppData%\npm\appium.cmd"
