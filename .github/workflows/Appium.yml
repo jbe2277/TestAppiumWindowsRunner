@@ -11,7 +11,7 @@ jobs:
     runs-on: windows-2025
 
     steps:
-      - name: ⚙️ Install and start Appium
+      - name: ⚙️ Install Appium Server
         shell: pwsh 
         run: |
           npm install -g appium
@@ -22,7 +22,7 @@ jobs:
       #   shell: cmd
 
       - name: Start Appium Server
-        run: appium --log-level info &
+        run: appium &
         shell: bash
 
       - name: Check if Appium is running
