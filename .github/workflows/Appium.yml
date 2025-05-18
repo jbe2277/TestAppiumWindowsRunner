@@ -30,7 +30,12 @@ jobs:
         run: |
           Test-NetConnection -ComputerName localhost -Port 4723
         
-
+      
+      - name: Check if Appium is running
+        shell: bash  
+        run: |
+          curl --fail http://localhost:4723/status
+        
     # Start-Process -FilePath "pwsh" -ArgumentList ". '(Get-Command appium).Source'"
     # Start-Process -FilePath "pwsh" -ArgumentList "-File `"(Get-Command appium).Source`"" -WindowStyle Hidden
     # Start-Process -FilePath "pwsh" -ArgumentList ". '(Get-Command appium).Source'"
