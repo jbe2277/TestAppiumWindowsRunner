@@ -12,11 +12,11 @@ jobs:
 
     steps:
       - name: ⚙️ Install and start Appium
-        shell: pwsh  
+        shell: cmd 
         run: |
           npm install -g appium
           appium --version
-          Start-Process -NoNewWindow -FilePath (Get-Command appium).Source
+          start cmd /k "%AppData%\npm\appium.cmd"
 
           
     # appium driver install windows
