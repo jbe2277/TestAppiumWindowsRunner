@@ -15,8 +15,10 @@ jobs:
         shell: cmd 
         run: |
           npm install -g appium
-          "%AppData%\npm\appium.cmd" --version
-          start cmd /k "%AppData%\npm\appium.cmd"
+          appium
+
+    # "%AppData%\npm\appium.cmd" --version
+    # start cmd /k "%AppData%\npm\appium.cmd"
 
           
     # appium driver install windows
