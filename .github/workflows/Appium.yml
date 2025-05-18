@@ -22,11 +22,10 @@ jobs:
         shell: cmd
 
       - name: Check if Appium is running
+        shell: pwsh  
         run: |
-          curl --fail http://localhost:4723
-        shell: bash
-
-          
+          Test-NetConnection -ComputerName localhost -Port 4723
+        
 
     # Start-Process -FilePath "pwsh" -ArgumentList ". '(Get-Command appium).Source'"
     # Start-Process -FilePath "pwsh" -ArgumentList "-File `"(Get-Command appium).Source`"" -WindowStyle Hidden
