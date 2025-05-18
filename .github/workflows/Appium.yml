@@ -16,7 +16,7 @@ jobs:
         run: |
           npm install -g appium
           appium --version
-          Start-Process -FilePath "pwsh" -ArgumentList ". '(Get-Command appium).Source'"
+          Start-Process -FilePath "pwsh" -ArgumentList "-File `"(Get-Command appium).Source`"" -WindowStyle Hidden
 
 
     # "%AppData%\npm\appium.cmd" --version
