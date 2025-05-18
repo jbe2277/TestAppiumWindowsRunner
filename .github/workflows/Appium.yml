@@ -23,7 +23,7 @@ jobs:
 
       - name: Check if Appium is running
         run: |
-          curl --fail http://localhost:4723/status
+          curl --fail http://localhost:4723
         shell: bash
 
           
