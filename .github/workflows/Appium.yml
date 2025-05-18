@@ -16,7 +16,7 @@ jobs:
         run: |
           npm install -g appium
           appium --version
-          Start-Process -NoNewWindow -FilePath (Get-Command appium).Source
+          Start-Process -FilePath "pwsh" -ArgumentList ". '(Get-Command appium).Source'"
 
 
     # "%AppData%\npm\appium.cmd" --version
@@ -25,3 +25,6 @@ jobs:
     # appium driver install windows
     # start cmd /k '%AppData%\npm\appium.cmd'
     # Start-Process -NoNewWindow -FilePath "$env:APPDATA\npm\appium.cmd"
+    
+    # shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+    # Start-Process -FilePath "powershell.exe" -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$appiumPath`"" -WindowStyle Hidden
