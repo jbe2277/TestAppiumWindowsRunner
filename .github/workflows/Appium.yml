@@ -15,9 +15,10 @@ jobs:
         shell: pwsh  
         run: |
           npm install -g appium
-          appium driver install windows
           appium --version
-          dir "$env:APPDATA\npm"
+          echo (Get-Command appium).Source
+
           
+    # appium driver install windows
     # start cmd /k '%AppData%\npm\appium.cmd'
     # Start-Process -NoNewWindow -FilePath "$env:APPDATA\npm\appium.cmd"
