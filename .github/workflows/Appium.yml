@@ -17,9 +17,13 @@ jobs:
           npm install -g appium
           appium --version
           
+      # - name: Start Appium Server
+      #   run: start /B appium
+      #   shell: cmd
+
       - name: Start Appium Server
-        run: start /B appium
-        shell: cmd
+        run: appium --log-level info &
+        shell: bash
 
       - name: Check if Appium is running
         shell: pwsh  
