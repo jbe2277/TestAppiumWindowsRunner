@@ -18,6 +18,8 @@ jobs:
         # List available system images (optional but useful for debugging)
         sdkmanager --list | grep "system-images"        
 
+        sdkmanager "system-images;android-35;google_apis_playstore;x86_64"
+
         # Ensure the directory exists
         ls -l $ANDROID_SDK_ROOT/system-images/android-35/google_apis_playstore/x86_64
 
