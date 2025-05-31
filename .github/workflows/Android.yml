@@ -10,7 +10,7 @@ jobs:
     - name: Start Android Emulator
       run: |
         # Add the Android SDK command-line tools to the PATH
-        export PATH="$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH"
+        export PATH="$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools:$PATH"
         
         # Optionally, verify that avdmanager is now available:
         which avdmanager
