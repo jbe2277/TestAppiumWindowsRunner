@@ -15,6 +15,9 @@ jobs:
         # Optionally, verify that avdmanager is now available:
         which avdmanager
 
+        # List available system images (optional but useful for debugging)
+        sdkmanager --list | grep "system-images"        
+
         # Create an AVD named "test" using the specified system image
         echo "no" | avdmanager create avd -n test -k "system-images;android-29;default;x86" --force
         
