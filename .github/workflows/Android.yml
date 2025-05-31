@@ -9,23 +9,28 @@ jobs:
     steps:
     - name: Start Android Emulator
       run: |
-        # Create an AVD (Android Virtual Device) called "test".
-        # The "echo no" bypasses interactive prompts (e.g., for custom SD card size).
+        # Add the Android SDK command-line tools to the PATH
+        export PATH="$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH"
+        
+        # Optionally, verify that avdmanager is now available:
+        which avdmanager
+
+        # Create an AVD named "test" using the specified system image
         echo "no" | avdmanager create avd -n test -k "system-images;android-29;default;x86" --force
-
+        
         # Launch the emulator in headless mode:
-        #   - -no-window: run without a GUI
-        #   - -no-audio: disable audio support for faster startup
-        #   - -gpu swiftshader_indirect: use a software GPU rendering mode
+        #   - no-window: prevents the emulator GUI from launching
+        #   - no-audio: disables audio to speed up startup
+        #   - gpu swiftshader_indirect: uses a software GPU renderer for CI
         nohup emulator -avd test -no-window -no-audio -gpu swiftshader_indirect > /dev/null 2>&1 &
-
-        # Wait for the emulator to fully boot.
-        # Here we poll the 'sys.boot_completed' property until it returns "1".
-        # The timeout command ensures that the process won't hang indefinitely (here, up to 300 seconds).
+        
+        # Wait for the emulator to complete booting.
+        # Poll sys.boot_completed until it returns "1"; timeout after 300 seconds.
         timeout 300 sh -c 'until adb shell getprop sys.boot_completed | grep -m 1 "1"; do sleep 5; done'
-
-        # Finally, send a key event to unlock the device (simulate pressing the Menu button).
+        
+        # Send a key event to unlock the device.
         adb shell input keyevent 82
+
         
     # - name: Enable KVM
     #   run: |
