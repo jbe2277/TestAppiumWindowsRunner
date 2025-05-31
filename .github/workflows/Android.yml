@@ -19,7 +19,7 @@ jobs:
         sdkmanager --list | grep "system-images"        
 
         # Create an AVD named "test" using the specified system image
-        echo "no" | avdmanager create avd -n test -k "system-images;android-35;google_apis_playstore;x86_64" --force
+        echo "no" | avdmanager create avd -n test -k "system-images;android-34;google_apis_playstore;x86_64" --force
         
         # Launch the emulator in headless mode:
         #   - no-window: prevents the emulator GUI from launching
