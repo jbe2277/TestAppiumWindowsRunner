@@ -1,4 +1,4 @@
-name: Appium
+name: Android
 
 on:
   workflow_dispatch:
