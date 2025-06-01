@@ -16,13 +16,14 @@ jobs:
     - name: Start Android Emulator
       run: |
         # Add the Android SDK command-line tools to the PATH
-        export PATH="$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools:$PATH"
+        export PATH="$ANDROID_SDK_ROOT/emulator:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools:$PATH"
         
         # Optionally, verify that avdmanager is now available:
         which avdmanager
+        which emulator || { echo "Emulator binary not found"; exit 1; }
 
         # List available system images (optional but useful for debugging)
-        sdkmanager --list | grep "system-images"        
+        sdkmanager --list | grep "system-images"
 
         sdkmanager "system-images;android-35;google_apis_playstore;x86_64"
 
