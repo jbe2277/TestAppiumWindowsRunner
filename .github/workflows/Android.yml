@@ -36,7 +36,9 @@ jobs:
         #   - no-window: prevents the emulator GUI from launching
         #   - no-audio: disables audio to speed up startup
         #   - gpu swiftshader_indirect: uses a software GPU renderer for CI
-        nohup emulator -avd test -no-window -no-audio -gpu swiftshader_indirect > /dev/null 2>&1 &
+        nohup emulator -avd test -no-window -no-audio -gpu swiftshader_indirect > emulator.log 2>&1 &
+        sleep 5
+        cat emulator.log
         
         # Check emulator status
         sleep 5
