@@ -38,6 +38,10 @@ jobs:
         #   - gpu swiftshader_indirect: uses a software GPU renderer for CI
         nohup emulator -avd test -no-window -no-audio -gpu swiftshader_indirect > /dev/null 2>&1 &
         
+        # Check emulator status
+        sleep 5
+        adb devices || { echo "ADB not detecting devices"; exit 1; }
+
         # Wait for the emulator to complete booting.
         # Poll sys.boot_completed until it returns "1"; timeout after 300 seconds.
         timeout 300 sh -c 'until adb shell getprop sys.boot_completed | grep -m 1 "1"; do sleep 5; done'
