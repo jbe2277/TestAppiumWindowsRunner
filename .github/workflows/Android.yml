@@ -18,6 +18,11 @@ jobs:
         # Add the Android SDK command-line tools to the PATH
         export PATH="$ANDROID_SDK_ROOT/emulator:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools:$PATH"
         
+        echo "ls emulator"
+        ls -l $ANDROID_SDK_ROOT/emulator
+        echo "ls cmdline-tools"
+        ls -l $ANDROID_SDK_ROOT/cmdline-tools/latest/bin
+
         # Optionally, verify that avdmanager is now available:
         which avdmanager
         which emulator || { echo "Emulator binary not found"; exit 1; }
