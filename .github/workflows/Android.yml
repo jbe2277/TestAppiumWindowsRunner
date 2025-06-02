@@ -29,6 +29,8 @@ jobs:
           exit 1
         fi
 
+        export ANDROID_AVD_HOME=$HOME/.config/.android/avd
+
         echo "no" | avdmanager create avd -n test -k "system-images;android-35;google_apis_playstore;x86_64" --force
 
         echo "no"
