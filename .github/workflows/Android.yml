@@ -27,7 +27,11 @@ jobs:
         
         # Create an AVD named "test" using the specified system image
         echo "no" | avdmanager create avd -n test -k "system-images;android-35;google_apis_playstore;x86_64" --force
-        
+        if [[ ! -f "$HOME/.android/avd/test.avd/config.ini" ]]; then
+          echo "AVD creation failed. Check logs for details."
+          exit 1
+        fi
+
         # Launch the emulator in headless mode:
         #   - no-window: prevents the emulator GUI from launching
         #   - no-audio: disables audio to speed up startup
