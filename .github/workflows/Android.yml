@@ -1,6 +1,10 @@
 name: Android
 
 on:
+  push:
+    paths: 
+    - '**/Android.yml'
+
   workflow_dispatch:
 
 jobs:
@@ -15,7 +19,8 @@ jobs:
 
     - name: Start Android Emulator
       run: |
-        # Add the Android SDK command-line tools to the PATH
+        set -x
+
         export PATH="$ANDROID_SDK_ROOT/emulator:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools:$PATH"
         
         sdkmanager "system-images;android-35;google_apis_playstore;x86_64"
@@ -33,6 +38,7 @@ jobs:
         
         # Check emulator status
         sleep 5
+        adb devices
         adb devices || { echo "ADB not detecting devices"; exit 1; }
 
         # Wait for the emulator to complete booting.
