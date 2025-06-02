@@ -19,6 +19,8 @@ jobs:
 
     - name: Start Android Emulator
       run: |
+        export PATH="$ANDROID_SDK_ROOT/emulator:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools:$PATH"
+      
         echo "Installing system image"
         echo "y" | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager "system-images;android-35;google_apis;x86_64"
 
@@ -31,7 +33,7 @@ jobs:
         echo "Starting emulator"
         $ANDROID_SDK_ROOT/emulator/emulator -avd test_emulator -no-audio -no-boot-anim -no-window -no-snapshot &
         adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done; input keyevent 82'
-        
+
     # set -x
 
     # export PATH="$ANDROID_SDK_ROOT/emulator:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools:$PATH"
