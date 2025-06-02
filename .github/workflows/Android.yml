@@ -19,51 +19,64 @@ jobs:
 
     - name: Start Android Emulator
       run: |
-        set -x
+        echo "Installing system image"
+        echo "y" | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager "system-images;android-35;google_apis;x86_64"
 
-        export PATH="$ANDROID_SDK_ROOT/emulator:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools:$PATH"
-        
-        echo "y" | sdkmanager "system-images;android-35;google_apis_playstore;x86_64"
-        if [ ! -d "$ANDROID_SDK_ROOT/system-images/android-35/google_apis_playstore/x86_64" ]; then
-          echo "System image not found. Installation might have failed."
-          exit 1
-        fi
-
+        echo "Setting ANDROID_AVD_HOME"
         export ANDROID_AVD_HOME=$HOME/.config/.android/avd
 
-        echo "no" | avdmanager create avd -n test -k "system-images;android-35;google_apis_playstore;x86_64" --force
+        echo "Creating AVD"
+        echo "no" | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/avdmanager create avd -n test_emulator -k "system-images;android-35;google_apis;x86_64" --force
 
-        echo "no"
-
-
-        cat ~/.android/avd/*.log || echo "No logs found"; 
-        exit 1; 
+        echo "Starting emulator"
+        $ANDROID_SDK_ROOT/emulator/emulator -avd test_emulator -no-audio -no-boot-anim -no-window -no-snapshot &
+        adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done; input keyevent 82'
         
-        if [[ ! -f "$HOME/.android/avd/test.avd/config.ini" ]]; then
-          echo "AVD creation failed. Check logs for details."
-          exit 1
-        fi
+    # set -x
 
-        # Launch the emulator in headless mode:
-        #   - no-window: prevents the emulator GUI from launching
-        #   - no-audio: disables audio to speed up startup
-        #   - gpu swiftshader_indirect: uses a software GPU renderer for CI
-        emulator -list-avds
-        nohup emulator -avd test -no-window -no-audio -gpu swiftshader_indirect > emulator.log 2>&1 &
-        sleep 5
-        cat emulator.log
-        
-        # Check emulator status
-        sleep 5
-        adb devices
-        adb devices || { echo "ADB not detecting devices"; exit 1; }
+    # export PATH="$ANDROID_SDK_ROOT/emulator:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools:$PATH"
+    
+    # echo "y" | sdkmanager "system-images;android-35;google_apis_playstore;x86_64"
+    # if [ ! -d "$ANDROID_SDK_ROOT/system-images/android-35/google_apis_playstore/x86_64" ]; then
+    #   echo "System image not found. Installation might have failed."
+    #   exit 1
+    # fi
 
-        # Wait for the emulator to complete booting.
-        # Poll sys.boot_completed until it returns "1"; timeout after 300 seconds.
-        timeout 300 sh -c 'until adb shell getprop sys.boot_completed | grep -m 1 "1"; do sleep 5; done'
-        
-        # Send a key event to unlock the device.
-        adb shell input keyevent 82
+    # export ANDROID_AVD_HOME=$HOME/.config/.android/avd
+
+    # echo "no" | avdmanager create avd -n test -k "system-images;android-35;google_apis_playstore;x86_64" --force
+
+    # echo "no"
+
+
+    # cat ~/.android/avd/*.log || echo "No logs found"; 
+    # exit 1; 
+    
+    # if [[ ! -f "$HOME/.android/avd/test.avd/config.ini" ]]; then
+    #   echo "AVD creation failed. Check logs for details."
+    #   exit 1
+    # fi
+
+    # # Launch the emulator in headless mode:
+    # #   - no-window: prevents the emulator GUI from launching
+    # #   - no-audio: disables audio to speed up startup
+    # #   - gpu swiftshader_indirect: uses a software GPU renderer for CI
+    # emulator -list-avds
+    # nohup emulator -avd test -no-window -no-audio -gpu swiftshader_indirect > emulator.log 2>&1 &
+    # sleep 5
+    # cat emulator.log
+    
+    # # Check emulator status
+    # sleep 5
+    # adb devices
+    # adb devices || { echo "ADB not detecting devices"; exit 1; }
+
+    # # Wait for the emulator to complete booting.
+    # # Poll sys.boot_completed until it returns "1"; timeout after 300 seconds.
+    # timeout 300 sh -c 'until adb shell getprop sys.boot_completed | grep -m 1 "1"; do sleep 5; done'
+    
+    # # Send a key event to unlock the device.
+    # adb shell input keyevent 82
 
         
     # List available system images (optional but useful for debugging)
