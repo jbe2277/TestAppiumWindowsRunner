@@ -45,7 +45,7 @@ jobs:
 
     - name: List devices
       run: |
-        adb devices
+        $ANDROID_SDK_ROOT/platform-tools/adb devices
 
     # set -x
 
