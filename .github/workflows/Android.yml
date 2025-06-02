@@ -17,30 +17,30 @@ jobs:
         sudo udevadm control --reload-rules
         sudo udevadm trigger --name-match=kvm
 
-    - name: AVD Cache
-      uses: actions/cache@v4
-      id: avd-cache
-      with:
-        path: |
-          ~/.android/avd/*
-          ~/.android/adb*
-        key: avd
+    # - name: AVD Cache
+    #   uses: actions/cache@v4
+    #   id: avd-cache
+    #   with:
+    #     path: |
+    #       ~/.android/avd/*
+    #       ~/.android/adb*
+    #     key: avd
 
     - name: Start Android Emulator
       run: |
         export PATH="$ANDROID_SDK_ROOT/emulator:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools:$PATH"
       
         echo "Installing system image"
-        echo "y" | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager "system-images;android-35;google_apis;x86_64"
+        echo "y" | sdkmanager "system-images;android-35;google_apis;x86_64"
 
         echo "Setting ANDROID_AVD_HOME"
         export ANDROID_AVD_HOME=$HOME/.config/.android/avd
 
         echo "Creating AVD"
-        echo "no" | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/avdmanager create avd -n test_emulator -k "system-images;android-35;google_apis;x86_64" --force
+        echo "no" | avdmanager create avd -n test_emulator -k "system-images;android-35;google_apis;x86_64" --force
 
         echo "Starting emulator"
-        $ANDROID_SDK_ROOT/emulator/emulator -avd test_emulator -no-audio -no-boot-anim -no-window -no-snapshot &
+        emulator -avd test_emulator -no-audio -no-boot-anim -no-window -no-snapshot &
         adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done; input keyevent 82'
 
     # set -x
