@@ -30,6 +30,7 @@ jobs:
         fi
 
         echo "no" | avdmanager create avd -n test -k "system-images;android-35;google_apis_playstore;x86_64" --force
+        sleep 10
         cat ~/.android/avd/*.log || echo "No logs found"; 
         exit 1; 
         
