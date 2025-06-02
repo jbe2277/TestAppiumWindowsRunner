@@ -29,12 +29,10 @@ jobs:
           exit 1
         fi
 
-        echo "no" | avdmanager create avd -n test -k "system-images;android-35;google_apis_playstore;x86_64" --force || { 
-          echo "AVD creation failed. Logs:"; 
-          cat ~/.android/avd/*.log || echo "No logs found"; 
-          exit 1; 
-        }
-
+        echo "no" | avdmanager create avd -n test -k "system-images;android-35;google_apis_playstore;x86_64" --force
+        cat ~/.android/avd/*.log || echo "No logs found"; 
+        exit 1; 
+        
         if [[ ! -f "$HOME/.android/avd/test.avd/config.ini" ]]; then
           echo "AVD creation failed. Check logs for details."
           exit 1
